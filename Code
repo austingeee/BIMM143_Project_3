@@ -1,0 +1,47 @@
+import matplotlib.pyplot as plt
+from Bio import pairwise2
+from Bio.pairwise2 import format_alignment 
+
+def align(ref_seq, seq1):
+    "Align and score two amino acid sequences"
+    
+    # access arguments - two text files containing desired amino acid sequences to compare
+    
+    ref_seq = open(ref_seq, 'r') 
+    seq1 = open(seq1, 'r')
+    
+    # Alignment function
+    
+    alignment = pairwise2.align.globalms(ref_seq.read(), seq1.read(), 1, -1, -2, -1, score_only=True)
+    result = alignment
+    # arguments 1, -1, -2, -1 are scoring parameters for a match, mismatch, gap extention, and gap opneing, respectively
+    return(result)
+
+# define all desired comparisons
+
+human_mice = align('Homo_Sapiens_Seq.txt', 'House_Mice_seq.txt') 
+human_fish = align('Homo_Sapiens_Seq.txt', 'Zebra_Fish_Seq.txt')
+human_bat = align('Homo_Sapiens_Seq.txt', 'Fruit_Bat_Seq.txt')
+human_chimp = align('Homo_Sapiens_Seq.txt', 'Chimp_Seq.txt')
+
+# creation of table for display of scores
+
+plt.table(cellText=[['Zebrafish', str(human_fish)],
+                    ['House Mouse', (human_mice)],
+                   ['Fruit Bat', str(human_bat)],
+                   ['Chimp', str(human_chimp)]],
+          cellLoc='center', 
+          colLabels=['Comparison w/ Human Reference', 'Alignment Score'], loc = 'top', 
+          colColours = ['lightblue', 'lightblue'])
+# lines of code to remove plot that is automatically created using the table function (not needed)
+
+x = plt.gca() 
+x.get_xaxis().set_visible(False)
+x.get_yaxis().set_visible(False)
+plt.box(on=None)
+
+# Pritning Table with description
+
+print('   Alignment Scores for Casein Kinase 1 Delta')
+print('      Between Humans and Different Species')
+plt.show()
