@@ -3,14 +3,14 @@ from Bio import pairwise2
 from Bio.pairwise2 import format_alignment 
 
 def align(ref_seq, seq1):
-    "Align and score two amino acid sequences"
+    "Align and score two amino acid sequences using two .txt files containing the sequences"
     
-    # access arguments - two text files containing desired amino acid sequences to compare
+    # open sequence files - two text files containing desired amino acid sequences to compare
     
     ref_seq = open(ref_seq, 'r') 
     seq1 = open(seq1, 'r')
     
-    # Alignment function
+    # Alignment function: pairwise alignment of two sequecnes
     
     alignment = pairwise2.align.globalms(ref_seq.read(), seq1.read(), 1, -1, -2, -1, score_only=True)
     result = alignment
@@ -20,6 +20,7 @@ def align(ref_seq, seq1):
 # define all desired comparisons
 
 human_mice = align('Homo_Sapiens_Seq.txt', 'House_Mice_seq.txt') 
+human_frog = align('Homo_Sapiens_Seq.txt', 'Clawed_Frog_Seq.txt')
 human_fish = align('Homo_Sapiens_Seq.txt', 'Zebra_Fish_Seq.txt')
 human_bat = align('Homo_Sapiens_Seq.txt', 'Fruit_Bat_Seq.txt')
 human_chimp = align('Homo_Sapiens_Seq.txt', 'Chimp_Seq.txt')
@@ -27,6 +28,7 @@ human_chimp = align('Homo_Sapiens_Seq.txt', 'Chimp_Seq.txt')
 # creation of table for display of scores
 
 plt.table(cellText=[['Zebrafish', str(human_fish)],
+                    ['Clawed Frog', str(human_frog)],
                     ['House Mouse', (human_mice)],
                    ['Fruit Bat', str(human_bat)],
                    ['Chimp', str(human_chimp)]],
